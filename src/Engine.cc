@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Engine.h"
+#include "Sprite.h"
 
 
 const uint16_t Engine::kScreenWidth = 640;
@@ -43,3 +44,28 @@ void Engine::Init() {
   //Update the surface
   SDL_UpdateWindowSurface(game_window_);
 }
+
+
+void Engine::Main() {
+  Sprite sp("resources/background.BMP", screen_surface_);
+
+  sp.Blit(screen_surface_);
+  SDL_UpdateWindowSurface(game_window_);
+
+  SDL_Delay(2000);
+}
+
+uint16_t Engine::get_screen_width() const {
+  return kScreenWidth;
+}
+
+
+uint16_t Engine::get_screen_height() const {
+  return kScreenHeight;
+}
+
+
+SDL_Surface* Engine::get_screen_surface() const {
+  return screen_surface_;
+}
+

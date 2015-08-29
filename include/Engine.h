@@ -10,6 +10,11 @@ class Engine {
     ~Engine();
 
     void Init();
+    void Main();
+
+    uint16_t get_screen_width() const;
+    uint16_t get_screen_height() const;
+    SDL_Surface* get_screen_surface() const;
 
   private:
     static const uint16_t kScreenWidth;
