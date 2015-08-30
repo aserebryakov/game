@@ -47,13 +47,50 @@ void Engine::Init() {
 
 
 void Engine::Main() {
-  Sprite sp("resources/background.BMP", screen_surface_);
+  Sprite background("resources/background.BMP", screen_surface_);
+  Sprite player("resources/Player.BMP", screen_surface_);
+  SDL_Event e;
+  bool quit = false;
 
-  sp.Blit(screen_surface_);
-  SDL_UpdateWindowSurface(game_window_);
+  player.set_x(kScreenWidth / 2);
+  player.set_y(kScreenHeight / 2);
 
-  SDL_Delay(2000);
+  while (quit != true) {
+    while (SDL_PollEvent(&e) != 0) {
+      if (e.type == SDL_QUIT) {
+        quit = true;
+        break;
+      }
+
+      if (e.type == SDL_KEYDOWN)
+      {
+        switch (e.key.keysym.sym) {
+          case SDLK_UP: {
+            player.set_y(player.get_y() - 1);
+            break;
+          }
+          case SDLK_DOWN: {
+            player.set_y(player.get_y() + 1);
+            break;
+          }
+          case SDLK_RIGHT: {
+            player.set_x(player.get_x() + 1);
+            break;
+          }
+          case SDLK_LEFT: {
+            player.set_x(player.get_x() - 1);
+            break;
+          }
+        }
+      }
+    }
+
+    background.Blit(screen_surface_);
+    player.Blit(screen_surface_);
+    SDL_UpdateWindowSurface(game_window_);
+  }
 }
+
 
 uint16_t Engine::get_screen_width() const {
   return kScreenWidth;
