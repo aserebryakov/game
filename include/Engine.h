@@ -21,6 +21,9 @@ class Engine {
     static const uint16_t kScreenHeight;
     SDL_Window* game_window_;
     SDL_Surface* screen_surface_;
+    SDL_Renderer* renderer_;
+
+    void InitializeRenderer();
 };
 
 #endif // ENGINE_H

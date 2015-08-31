@@ -8,12 +8,12 @@
 
 class Sprite {
   public:
-    Sprite(std::string path, SDL_Surface* screen_surface);
+    Sprite(std::string path, SDL_Renderer* renderer);
     Sprite(const Sprite& other) = delete;
     Sprite(const Sprite&& other) = delete;
     ~Sprite();
 
-    void Blit(SDL_Surface* surface);
+    void Render(SDL_Renderer* renderer);
 
     uint16_t get_x() const;
     uint16_t get_y() const;
@@ -21,7 +21,7 @@ class Sprite {
     void set_y(uint16_t y);
 
   private:
-    SDL_Surface* sprite_surface_;
+    SDL_Texture* texture_;
     SDL_Rect rectangle_;
 };
 

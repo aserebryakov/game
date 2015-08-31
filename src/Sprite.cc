@@ -1,35 +1,34 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(std::string path, SDL_Surface* screen_surface) : sprite_surface_(nullptr) {
+Sprite::Sprite(std::string path, SDL_Renderer* renderer) : texture_(nullptr) {
   SDL_Surface* temp_surface = SDL_LoadBMP(path.c_str());
 
   if (temp_surface == nullptr) {
     throw;
   }
 
-  sprite_surface_ = SDL_ConvertSurface(temp_surface, screen_surface->format, NULL);
+  texture_ = SDL_CreateTextureFromSurface(renderer, temp_surface);
 
-  if (sprite_surface_ == nullptr) {
+  if (texture_ == nullptr) {
     throw;
   }
 
   SDL_FreeSurface(temp_surface);
+  SDL_QueryTexture(texture_, nullptr, nullptr, &rectangle_.w, &rectangle_.h);
 
   rectangle_.x = 0;
   rectangle_.y = 0;
-  rectangle_.w = sprite_surface_->w;
-  rectangle_.h = sprite_surface_->h;
 }
 
 
 Sprite::~Sprite() {
-  SDL_FreeSurface(sprite_surface_);
+  SDL_DestroyTexture(texture_);
 }
 
 
-void Sprite::Blit(SDL_Surface* surface) {
-  SDL_BlitScaled(sprite_surface_, nullptr, surface, &rectangle_);
+void Sprite::Render(SDL_Renderer* renderer) {
+  SDL_RenderCopy(renderer, texture_, nullptr, &rectangle_);
 }
 
 
