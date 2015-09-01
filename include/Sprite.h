@@ -11,7 +11,7 @@ class Sprite {
     Sprite(std::string path, SDL_Renderer* renderer);
     Sprite(const Sprite& other) = delete;
     Sprite(const Sprite&& other) = delete;
-    ~Sprite();
+    virtual ~Sprite();
 
     void Render(SDL_Renderer* renderer);
 

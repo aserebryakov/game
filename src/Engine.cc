@@ -2,6 +2,7 @@
 #include <vector>
 #include "Engine.h"
 #include "Sprite.h"
+#include "Player.h"
 
 
 const uint16_t Engine::kScreenWidth = 640;
@@ -44,13 +45,10 @@ void Engine::Init() {
 
 
 void Engine::Main() {
-  Sprite background("resources/background.BMP", renderer_);
-  Sprite player("resources/Player.BMP", renderer_);
   SDL_Event e;
   bool quit = false;
 
-  player.set_x(kScreenWidth / 2);
-  player.set_y(kScreenHeight / 2);
+  InitializeScene();
 
   while (quit != true) {
     while (SDL_PollEvent(&e) != 0) {
@@ -59,31 +57,12 @@ void Engine::Main() {
         break;
       }
 
-      if (e.type == SDL_KEYDOWN) {
-        switch (e.key.keysym.sym) {
-          case SDLK_UP: {
-            player.set_y(player.get_y() - 1);
-            break;
-          }
-          case SDLK_DOWN: {
-            player.set_y(player.get_y() + 1);
-            break;
-          }
-          case SDLK_RIGHT: {
-            player.set_x(player.get_x() + 1);
-            break;
-          }
-          case SDLK_LEFT: {
-            player.set_x(player.get_x() - 1);
-            break;
-          }
-        }
+      for (auto& handler : event_handlers_) {
+        handler->HandleEvent(e);
       }
     }
 
-    background.Render(renderer_);
-    player.Render(renderer_);
-    SDL_RenderPresent(renderer_);
+    RenderScene();
   }
 }
 
@@ -110,8 +89,7 @@ void Engine::InitializeRenderer() {
   for (auto mode : renderer_modes) {
     renderer_ = SDL_CreateRenderer(game_window_, -1, mode);
 
-    if (renderer_ != nullptr)
-    {
+    if (renderer_ != nullptr) {
       return;
     }
 
@@ -119,4 +97,29 @@ void Engine::InitializeRenderer() {
   }
 
   throw;
+}
+
+
+void Engine::InitializeScene() {
+  std::shared_ptr<RenderableObject> player = std::make_shared<Player>("resources/Player.BMP", renderer_);
+  player->set_x(kScreenWidth / 2);
+  player->set_y(kScreenHeight / 2);
+
+  acting_objects_.push_back(player);
+  static_objects_.push_back(std::make_shared<RenderableObject>("resources/background.BMP", renderer_));
+
+  event_handlers_.push_back(std::dynamic_pointer_cast<IEventHandler>(player));
+}
+
+
+void Engine::RenderScene() {
+  for (auto& object : static_objects_) {
+    object->Render(renderer_);
+  }
+
+  for (auto& object : acting_objects_) {
+    object->Render(renderer_);
+  }
+
+  SDL_RenderPresent(renderer_);
 }
