@@ -52,7 +52,8 @@ void Engine::Main() {
 
   while (quit != true) {
     while (SDL_PollEvent(&e) != 0) {
-      if (e.type == SDL_QUIT) {
+      if (e.type == SDL_QUIT ||
+          (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)) {
         quit = true;
         break;
       }
@@ -64,6 +65,7 @@ void Engine::Main() {
 
     UpdateScene();
     RenderScene();
+    SDL_Delay(20);
   }
 }
 
