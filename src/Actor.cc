@@ -62,8 +62,10 @@ void Actor::set_vy(int16_t new_vy) {
 
 
 void Actor::UpdatePosition() {
-  RenderableObject::set_x(get_x() - (rectangle_.w/2) + vx_);
-  RenderableObject::set_y(get_y() - (rectangle_.h/2) + vy_);
+  x_ += vx_;
+  y_ += vy_;
+  RenderableObject::set_x(x_ - (rectangle_.w/2));
+  RenderableObject::set_y(y_ - (rectangle_.h/2));
 }
 
 
