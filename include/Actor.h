@@ -1,0 +1,42 @@
+#ifndef ACTOR_H
+#define ACTOR_H
+
+
+#include "RenderableObject.h"
+#include "IEventHandler.h"
+
+
+class Actor : public RenderableObject, public IEventHandler {
+  public:
+    Actor(std::string path, SDL_Renderer* renderer,
+          int16_t x, int16_t y, int16_t vx, int16_t vy);
+
+    Actor(const Actor& other) = delete;
+    Actor(const Actor&& other) = delete;
+    virtual ~Actor() = default;
+
+    virtual void HandleEvent(const SDL_Event& e) = 0;
+    int16_t get_x() const;
+    int16_t get_y() const;
+    void set_x(int16_t new_x);
+    void set_y(int16_t new_y);
+    SDL_Rect get_box() const;
+
+    int16_t get_vx() const;
+    int16_t get_vy() const;
+    void set_vx(int16_t new_vx);
+    void set_vy(int16_t new_vy);
+    void UpdatePosition();
+
+    bool Alive() const;
+    void Alive(bool value);
+
+  protected:
+    int16_t x_;
+    int16_t y_;
+    int16_t vx_;
+    int16_t vy_;
+    bool alive_;
+};
+
+#endif // ACTOR_H

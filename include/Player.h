@@ -2,13 +2,14 @@
 #define PLAYER_H
 
 
-#include "RenderableObject.h"
-#include "IEventHandler.h"
+#include "Actor.h"
 
 
-class Player : public RenderableObject, public IEventHandler {
+class Player : public Actor {
   public:
-    Player(std::string path, SDL_Renderer* renderer);
+    Player(std::string path, SDL_Renderer* renderer,
+           int16_t x, int16_t y);
+
     Player(const Player& other) = delete;
     Player(const Player&& other) = delete;
     virtual ~Player() = default;

@@ -15,12 +15,12 @@ class Sprite {
 
     void Render(SDL_Renderer* renderer);
 
-    uint16_t get_x() const;
-    uint16_t get_y() const;
-    void set_x(uint16_t x);
-    void set_y(uint16_t y);
+    int16_t get_x() const;
+    int16_t get_y() const;
+    void set_x(int16_t x);
+    void set_y(int16_t y);
 
-  private:
+  protected:
     SDL_Texture* texture_;
     SDL_Rect rectangle_;
 };

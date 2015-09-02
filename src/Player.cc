@@ -1,7 +1,9 @@
+#include <stdio.h>
 #include "Player.h"
 
-Player::Player(std::string path, SDL_Renderer* renderer) :
-  RenderableObject(path, renderer) {
+Player::Player(std::string path, SDL_Renderer* renderer,
+               int16_t x, int16_t y) :
+  Actor(path, renderer, x, y, 0, 0) {
 }
 
 

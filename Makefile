@@ -3,7 +3,7 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = src/main.cc src/Engine.cc src/Sprite.cc src/RenderableObject.cc src/Player.cc
+OBJS = src/main.cc src/Engine.cc src/Sprite.cc src/RenderableObject.cc src/Player.cc src/Actor.cc
 
 #CC specifies which compiler we're using
 CC = g++

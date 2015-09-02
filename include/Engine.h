@@ -4,8 +4,9 @@
 #include <vector>
 #include <memory>
 #include <SDL.h>
-#include "RenderableObject.h"
 #include "IEventHandler.h"
+#include "RenderableObject.h"
+#include "Actor.h"
 
 
 class Engine {
@@ -27,12 +28,13 @@ class Engine {
     SDL_Window* game_window_;
     SDL_Surface* screen_surface_;
     SDL_Renderer* renderer_;
-    std::vector<std::shared_ptr<RenderableObject>> acting_objects_;
+    std::vector<std::shared_ptr<Actor>> acting_objects_;
     std::vector<std::shared_ptr<RenderableObject>> static_objects_;
     std::vector<std::shared_ptr<IEventHandler>> event_handlers_;
 
     void InitializeRenderer();
     void InitializeScene();
+    void UpdateScene();
     void RenderScene();
 };
 

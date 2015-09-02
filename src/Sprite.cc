@@ -34,21 +34,21 @@ void Sprite::Render(SDL_Renderer* renderer) {
 }
 
 
-uint16_t Sprite::get_x() const {
+int16_t Sprite::get_x() const {
   return rectangle_.x;
 }
 
 
-uint16_t Sprite::get_y() const {
+int16_t Sprite::get_y() const {
   return rectangle_.y;
 }
 
 
-void Sprite::set_x(uint16_t x) {
+void Sprite::set_x(int16_t x) {
   rectangle_.x = x;
 }
 
 
-void Sprite::set_y(uint16_t y) {
+void Sprite::set_y(int16_t y) {
   rectangle_.y = y;
 }

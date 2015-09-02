@@ -62,6 +62,7 @@ void Engine::Main() {
       }
     }
 
+    UpdateScene();
     RenderScene();
   }
 }
@@ -101,14 +102,19 @@ void Engine::InitializeRenderer() {
 
 
 void Engine::InitializeScene() {
-  std::shared_ptr<RenderableObject> player = std::make_shared<Player>("resources/Player.BMP", renderer_);
-  player->set_x(kScreenWidth / 2);
-  player->set_y(kScreenHeight / 2);
+  auto player = std::make_shared<Player>("resources/Player.BMP", renderer_,
+                                         kScreenWidth / 2, kScreenHeight / 2);
 
   acting_objects_.push_back(player);
   static_objects_.push_back(std::make_shared<RenderableObject>("resources/background.BMP", renderer_));
-
   event_handlers_.push_back(std::dynamic_pointer_cast<IEventHandler>(player));
+}
+
+
+void Engine::UpdateScene() {
+  for (auto& object : acting_objects_) {
+    object->UpdatePosition();
+  }
 }
 
 
