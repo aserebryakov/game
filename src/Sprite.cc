@@ -8,6 +8,8 @@ Sprite::Sprite(std::string path, SDL_Renderer* renderer) : texture_(nullptr) {
     throw;
   }
 
+  SDL_SetColorKey(temp_surface, SDL_TRUE, SDL_MapRGB(temp_surface->format, 0xFF, 0x00, 0xFF));
+
   texture_ = SDL_CreateTextureFromSurface(renderer, temp_surface);
 
   if (texture_ == nullptr) {
