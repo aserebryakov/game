@@ -36,6 +36,12 @@ class Engine {
     void InitializeScene();
     void UpdateScene();
     void RenderScene();
+
+    void SpawnPlayer();
+    void SpawnEnemy();
+    void SpawnObject(std::shared_ptr<Actor> object);
+    void DetectCollisions();
+    void CleanupScene();
 };
 
 #endif // ENGINE_H

@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <vector>
+#include <random>
 #include "Engine.h"
 #include "Sprite.h"
 #include "Player.h"
+#include "Enemy.h"
 
 
 const uint16_t Engine::kScreenWidth = 640;
@@ -28,7 +30,7 @@ void Engine::Init() {
   }
 
   //Create window
-  game_window_ = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
+  game_window_ = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED,
                                   SDL_WINDOWPOS_UNDEFINED, kScreenWidth,
                                   kScreenHeight, SDL_WINDOW_SHOWN);
   if (game_window_ == nullptr)
@@ -104,12 +106,8 @@ void Engine::InitializeRenderer() {
 
 
 void Engine::InitializeScene() {
-  auto player = std::make_shared<Player>("resources/Player.BMP", renderer_,
-                                         kScreenWidth / 2, kScreenHeight / 2);
-
-  acting_objects_.push_back(player);
   static_objects_.push_back(std::make_shared<RenderableObject>("resources/background.BMP", renderer_));
-  event_handlers_.push_back(std::dynamic_pointer_cast<IEventHandler>(player));
+  SpawnPlayer();
 }
 
 
@@ -117,6 +115,10 @@ void Engine::UpdateScene() {
   for (auto& object : acting_objects_) {
     object->UpdatePosition();
   }
+
+  DetectCollisions();
+  CleanupScene();
+  SpawnEnemy();
 }
 
 
@@ -130,4 +132,39 @@ void Engine::RenderScene() {
   }
 
   SDL_RenderPresent(renderer_);
+}
+
+
+void Engine::SpawnPlayer() {
+  auto player = std::make_shared<Player>("resources/Player.BMP", renderer_,
+                                         kScreenWidth / 2, kScreenHeight / 2);
+  SpawnObject(player);
+  event_handlers_.push_back(player);
+}
+
+
+void Engine::SpawnEnemy() {
+  static std::random_device rd;
+  static std::default_random_engine e(rd());
+  static std::uniform_int_distribution<int> probability(1, 50);
+  static std::uniform_int_distribution<int> position(0, kScreenWidth);
+
+  if (probability(e) == 1) {
+    auto enemy = std::make_shared<Enemy>("resources/Enemy.BMP", renderer_,
+                                          position(e), 0, 0, 5);
+    SpawnObject(enemy);
+  }
+}
+
+
+void Engine::SpawnObject(std::shared_ptr<Actor> object) {
+  acting_objects_.push_back(object);
+}
+
+
+void Engine::DetectCollisions() {
+}
+
+
+void Engine::CleanupScene() {
 }
