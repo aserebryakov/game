@@ -20,7 +20,7 @@ class Actor : public RenderableObject, public IEventHandler {
     int16_t get_y() const;
     void set_x(int16_t new_x);
     void set_y(int16_t new_y);
-    SDL_Rect get_box() const;
+    const SDL_Rect& get_rectangle() const;
 
     int16_t get_vx() const;
     int16_t get_vy() const;

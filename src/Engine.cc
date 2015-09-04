@@ -146,7 +146,7 @@ void Engine::SpawnPlayer() {
 void Engine::SpawnEnemy() {
   static std::random_device rd;
   static std::default_random_engine e(rd());
-  static std::uniform_int_distribution<int> probability(1, 50);
+  static std::uniform_int_distribution<int> probability(1, 20);
   static std::uniform_int_distribution<int> position(0, kScreenWidth);
 
   if (probability(e) == 1) {
@@ -163,8 +163,33 @@ void Engine::SpawnObject(std::shared_ptr<Actor> object) {
 
 
 void Engine::DetectCollisions() {
+  size_t objects_number = acting_objects_.size();
+  size_t index = 0;
+  SDL_Rect intersect_dummy;
+
+  while (index < objects_number) {
+    for (size_t i = index + 1; i < objects_number; i++) {
+      if (SDL_IntersectRect(&(acting_objects_[index]->get_rectangle()),
+         &(acting_objects_[i]->get_rectangle()), &intersect_dummy) == true) {
+        acting_objects_[index]->Alive(false);
+        acting_objects_[i]->Alive(false);
+      }
+    }
+    index++;
+  }
 }
 
 
 void Engine::CleanupScene() {
+  std::vector<std::shared_ptr<Actor>> left_objects;
+
+  for (auto& object : acting_objects_) {
+    if (object->Alive() == true) {
+      if (object->get_rectangle().y <= kScreenHeight) {
+        left_objects.push_back(object);
+      }
+    }
+  }
+
+  acting_objects_ = left_objects;
 }

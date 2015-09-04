@@ -36,7 +36,7 @@ void Actor::set_y(int16_t new_y) {
 }
 
 
-SDL_Rect Actor::get_box() const {
+const SDL_Rect& Actor::get_rectangle() const {
   return rectangle_;
 }
 
