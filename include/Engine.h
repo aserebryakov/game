@@ -7,6 +7,7 @@
 #include "IEventHandler.h"
 #include "RenderableObject.h"
 #include "Actor.h"
+#include "Player.h"
 
 
 class Engine {
@@ -28,6 +29,9 @@ class Engine {
     SDL_Window* game_window_;
     SDL_Surface* screen_surface_;
     SDL_Renderer* renderer_;
+
+    bool quit_;
+    std::shared_ptr<Player> player_;
     std::vector<std::shared_ptr<Actor>> new_objects_;
     std::vector<std::shared_ptr<Actor>> acting_objects_;
     std::vector<std::shared_ptr<RenderableObject>> static_objects_;
@@ -35,6 +39,7 @@ class Engine {
 
     void InitializeRenderer();
     void InitializeScene();
+    void GameLoop();
     void UpdateScene();
     void RenderScene();
 

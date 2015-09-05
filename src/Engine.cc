@@ -12,7 +12,8 @@ const uint16_t Engine::kScreenWidth = 640;
 const uint16_t Engine::kScreenHeight = 480;
 
 
-Engine::Engine() : game_window_(nullptr), screen_surface_(nullptr) {
+Engine::Engine() : game_window_(nullptr), screen_surface_(nullptr),
+  renderer_(nullptr), quit_(false), player_(nullptr) {
 }
 
 
@@ -48,27 +49,9 @@ void Engine::Init() {
 
 
 void Engine::Main() {
-  SDL_Event e;
-  bool quit = false;
-
-  InitializeScene();
-
-  while (quit != true) {
-    while (SDL_PollEvent(&e) != 0) {
-      if (e.type == SDL_QUIT ||
-          (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)) {
-        quit = true;
-        break;
-      }
-
-      for (auto& handler : event_handlers_) {
-        handler->HandleEvent(e);
-      }
-    }
-
-    UpdateScene();
-    RenderScene();
-    SDL_Delay(20);
+  while (quit_ == false) {
+    InitializeScene();
+    GameLoop();
   }
 }
 
@@ -107,10 +90,43 @@ void Engine::InitializeRenderer() {
 
 
 void Engine::InitializeScene() {
+  acting_objects_.clear();
+  static_objects_.clear();
+  event_handlers_.clear();
+  new_objects_.clear();
+
   static_objects_.push_back(std::make_shared<RenderableObject>("resources/background.BMP", renderer_));
   SpawnPlayer();
 }
 
+
+void Engine::GameLoop() {
+  SDL_Event e;
+  bool stop = false;
+
+  while (stop != true) {
+    while (SDL_PollEvent(&e) != 0) {
+      if (e.type == SDL_QUIT ||
+          (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)) {
+        stop = true;
+        quit_ = true;
+        break;
+      }
+
+      for (auto& handler : event_handlers_) {
+        handler->HandleEvent(e);
+      }
+    }
+
+    UpdateScene();
+    RenderScene();
+    SDL_Delay(20);
+
+    if (player_->Alive() == false) {
+      stop = true;
+    }
+  }
+}
 
 void Engine::UpdateScene() {
   for (auto& object : acting_objects_) {
@@ -145,10 +161,10 @@ void Engine::RenderScene() {
 
 
 void Engine::SpawnPlayer() {
-  auto player = std::make_shared<Player>("resources/Player.BMP", renderer_,
-                                         kScreenWidth / 2, 3 * kScreenHeight / 4);
-  SpawnObject(player);
-  event_handlers_.push_back(player);
+  player_ = std::make_shared<Player>("resources/Player.BMP", renderer_,
+                                     kScreenWidth / 2, 3 * kScreenHeight / 4);
+  SpawnObject(player_);
+  event_handlers_.push_back(player_);
 }
 
 
