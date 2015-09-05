@@ -28,6 +28,7 @@ class Engine {
     SDL_Window* game_window_;
     SDL_Surface* screen_surface_;
     SDL_Renderer* renderer_;
+    std::vector<std::shared_ptr<Actor>> new_objects_;
     std::vector<std::shared_ptr<Actor>> acting_objects_;
     std::vector<std::shared_ptr<RenderableObject>> static_objects_;
     std::vector<std::shared_ptr<IEventHandler>> event_handlers_;
@@ -39,6 +40,7 @@ class Engine {
 
     void SpawnPlayer();
     void SpawnEnemy();
+    void SpawnBullets();
     void SpawnObject(std::shared_ptr<Actor> object);
     void DetectCollisions();
     void CleanupScene();

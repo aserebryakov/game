@@ -9,7 +9,8 @@ Actor::Actor(std::string path, SDL_Renderer* renderer, int16_t x,
   y_(y),
   vx_(vx),
   vy_(vy),
-  alive_(true) {
+  alive_(true),
+  shooting_(false) {
   // Set x and y of the sprite
   RenderableObject::set_x(x - rectangle_.w/2);
   RenderableObject::set_y(y - rectangle_.h/2);
@@ -76,4 +77,14 @@ bool Actor::Alive() const {
 
 void Actor::Alive(bool value) {
   alive_ = value;
+}
+
+
+bool Actor::Shooting() const {
+  return shooting_;
+}
+
+
+void Actor::Shooting(bool value) {
+  shooting_ = value;
 }

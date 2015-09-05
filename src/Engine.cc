@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 
 const uint16_t Engine::kScreenWidth = 640;
@@ -116,9 +117,17 @@ void Engine::UpdateScene() {
     object->UpdatePosition();
   }
 
+  for (auto& object : new_objects_) {
+    acting_objects_.push_back(object);
+    object->UpdatePosition();
+  }
+
+  new_objects_.clear();
+
+  SpawnEnemy();
+  SpawnBullets();
   DetectCollisions();
   CleanupScene();
-  SpawnEnemy();
 }
 
 
@@ -137,7 +146,7 @@ void Engine::RenderScene() {
 
 void Engine::SpawnPlayer() {
   auto player = std::make_shared<Player>("resources/Player.BMP", renderer_,
-                                         kScreenWidth / 2, kScreenHeight / 2);
+                                         kScreenWidth / 2, 3 * kScreenHeight / 4);
   SpawnObject(player);
   event_handlers_.push_back(player);
 }
@@ -157,8 +166,24 @@ void Engine::SpawnEnemy() {
 }
 
 
+void Engine::SpawnBullets() {
+  for (auto& object : acting_objects_) {
+    if (object->Shooting() == true) {
+      try {
+        SDL_Rect r = object->get_rectangle();
+        SpawnObject(std::make_shared<Bullet>("resources/Bullet.BMP", renderer_,
+          object->get_x(), object->get_y() - r.h / 2 - 10, 0, -10));
+        object->Shooting(false);
+      } catch (...) {
+        printf("Could not spawn bullet! SDL_Error: %s\n", SDL_GetError());
+      }
+    }
+  }
+}
+
+
 void Engine::SpawnObject(std::shared_ptr<Actor> object) {
-  acting_objects_.push_back(object);
+  new_objects_.push_back(object);
 }
 
 

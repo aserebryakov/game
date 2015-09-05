@@ -9,6 +9,7 @@ OBJS = src/main.cc \
 	src/RenderableObject.cc \
 	src/Actor.cc \
 	src/Player.cc \
+	src/Bullet.cc \
 	src/Enemy.cc
 
 #CC specifies which compiler we're using

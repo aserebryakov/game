@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "Player.h"
 
+
 Player::Player(std::string path, SDL_Renderer* renderer,
                int16_t x, int16_t y) :
   Actor(path, renderer, x, y, 0, 0) {
@@ -24,6 +25,10 @@ void Player::HandleEvent(const SDL_Event& e) {
       }
       case SDLK_LEFT: {
         set_vx(get_vx() - 1);
+        break;
+      }
+      case SDLK_SPACE: {
+        shooting_ = true;
         break;
       }
     }

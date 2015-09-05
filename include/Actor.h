@@ -31,12 +31,16 @@ class Actor : public RenderableObject, public IEventHandler {
     bool Alive() const;
     void Alive(bool value);
 
+    bool Shooting() const;
+    void Shooting(bool value);
+
   protected:
     int16_t x_;
     int16_t y_;
     int16_t vx_;
     int16_t vy_;
     bool alive_;
+    bool shooting_;
 };
 
 #endif // ACTOR_H
