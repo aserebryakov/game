@@ -2,9 +2,10 @@
 #include "Actor.h"
 
 
-Actor::Actor(std::string path, SDL_Renderer* renderer, int16_t x,
+Actor::Actor(const std::shared_ptr<SpriteResource> resource,
+             SDL_Renderer* renderer, int16_t x,
              int16_t y, int16_t vx, int16_t vy) :
-  RenderableObject(path, renderer),
+  RenderableObject(resource, renderer),
   x_(x),
   y_(y),
   vx_(vx),

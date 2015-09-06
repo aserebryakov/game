@@ -2,13 +2,16 @@
 #define SPRITE_H
 
 
-#include <string>
+#include <memory>
 #include <SDL.h>
+#include "SpriteResource.h"
 
 
 class Sprite {
   public:
-    Sprite(std::string path, SDL_Renderer* renderer);
+    Sprite(const std::shared_ptr<SpriteResource> resource,
+           SDL_Renderer* renderer);
+
     Sprite(const Sprite& other) = delete;
     Sprite(const Sprite&& other) = delete;
     virtual ~Sprite();

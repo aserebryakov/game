@@ -95,7 +95,9 @@ void Engine::InitializeScene() {
   event_handlers_.clear();
   new_objects_.clear();
 
-  static_objects_.push_back(std::make_shared<RenderableObject>("resources/background.BMP", renderer_));
+  static_objects_.push_back(std::make_shared<RenderableObject>(
+                              std::make_shared<SpriteResource>("resources/background.BMP"),
+                              renderer_));
   SpawnPlayer();
 }
 
@@ -161,8 +163,10 @@ void Engine::RenderScene() {
 
 
 void Engine::SpawnPlayer() {
-  player_ = std::make_shared<Player>("resources/Player.BMP", renderer_,
-                                     kScreenWidth / 2, 3 * kScreenHeight / 4);
+  player_ = std::make_shared<Player>(std::make_shared<SpriteResource>(
+                                      "resources/Player.BMP"),
+                                      renderer_,
+                                      kScreenWidth / 2, 3 * kScreenHeight / 4);
   SpawnObject(player_);
   event_handlers_.push_back(player_);
 }
@@ -175,8 +179,9 @@ void Engine::SpawnEnemy() {
   static std::uniform_int_distribution<int> position(0, kScreenWidth);
 
   if (probability(e) == 1) {
-    auto enemy = std::make_shared<Enemy>("resources/Enemy.BMP", renderer_,
-                                          position(e), 0, 0, 5);
+    auto enemy = std::make_shared<Enemy>(std::make_shared<SpriteResource>(
+                                          "resources/Enemy.BMP"), renderer_,
+                                         position(e), 0, 0, 5);
     SpawnObject(enemy);
   }
 }
@@ -187,8 +192,11 @@ void Engine::SpawnBullets() {
     if (object->Shooting() == true) {
       try {
         SDL_Rect r = object->get_rectangle();
-        SpawnObject(std::make_shared<Bullet>("resources/Bullet.BMP", renderer_,
-          object->get_x(), object->get_y() - r.h / 2 - 10, 0, -10));
+        SpawnObject(std::make_shared<Bullet>(std::make_shared<SpriteResource>(
+                                             "resources/Bullet.BMP"),
+                    renderer_, object->get_x(),
+                    object->get_y() - r.h / 2 - 10, 0, -10));
+
         object->Shooting(false);
       } catch (...) {
         printf("Could not spawn bullet! SDL_Error: %s\n", SDL_GetError());

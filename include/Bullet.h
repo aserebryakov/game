@@ -7,7 +7,8 @@
 
 class Bullet : public Actor {
   public:
-    Bullet(std::string path, SDL_Renderer* renderer,
+    Bullet(const std::shared_ptr<SpriteResource> resource,
+           SDL_Renderer* renderer,
            int16_t x, int16_t y, int16_t vx, int16_t vy);
 
     Bullet(const Bullet& other) = delete;

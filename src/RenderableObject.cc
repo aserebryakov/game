@@ -1,6 +1,7 @@
 #include "RenderableObject.h"
 
-RenderableObject::RenderableObject(std::string path, SDL_Renderer* renderer) :
-  Sprite(path, renderer) {
+RenderableObject::RenderableObject(const std::shared_ptr<SpriteResource> resource,
+                                   SDL_Renderer* renderer) :
+                                   Sprite(resource, renderer) {
 }
 

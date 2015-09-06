@@ -1,22 +1,18 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(std::string path, SDL_Renderer* renderer) : texture_(nullptr) {
-  SDL_Surface* temp_surface = SDL_LoadBMP(path.c_str());
-
-  if (temp_surface == nullptr) {
+Sprite::Sprite(const std::shared_ptr<SpriteResource> resource,
+               SDL_Renderer* renderer) : texture_(nullptr) {
+  if (resource->get_surface() == nullptr) {
     throw;
   }
 
-  SDL_SetColorKey(temp_surface, SDL_TRUE, SDL_MapRGB(temp_surface->format, 0xFF, 0x00, 0xFF));
-
-  texture_ = SDL_CreateTextureFromSurface(renderer, temp_surface);
+  texture_ = SDL_CreateTextureFromSurface(renderer, resource->get_surface());
 
   if (texture_ == nullptr) {
     throw;
   }
 
-  SDL_FreeSurface(temp_surface);
   SDL_QueryTexture(texture_, nullptr, nullptr, &rectangle_.w, &rectangle_.h);
 
   rectangle_.x = 0;

@@ -2,9 +2,10 @@
 #include "Player.h"
 
 
-Player::Player(std::string path, SDL_Renderer* renderer,
+Player::Player(const std::shared_ptr<SpriteResource> resource,
+               SDL_Renderer* renderer,
                int16_t x, int16_t y) :
-  Actor(path, renderer, x, y, 0, 0) {
+  Actor(resource, renderer, x, y, 0, 0) {
 }
 
 

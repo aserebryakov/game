@@ -7,8 +7,8 @@
 
 class Player : public Actor {
   public:
-    Player(std::string path, SDL_Renderer* renderer,
-           int16_t x, int16_t y);
+    Player(const std::shared_ptr<SpriteResource> resource,
+           SDL_Renderer* renderer, int16_t x, int16_t y);
 
     Player(const Player& other) = delete;
     Player(const Player&& other) = delete;
