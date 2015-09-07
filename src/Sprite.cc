@@ -1,7 +1,7 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(const std::shared_ptr<SpriteResource> resource,
+Sprite::Sprite(const std::shared_ptr<ScreenResource> resource,
                SDL_Renderer* renderer) : texture_(nullptr) {
   if (resource->get_surface() == nullptr) {
     throw;

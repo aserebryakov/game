@@ -5,7 +5,7 @@
 
 class RenderableObject : public Sprite {
   public:
-    RenderableObject(const std::shared_ptr<SpriteResource> resource,
+    RenderableObject(const std::shared_ptr<ScreenResource> resource,
                      SDL_Renderer* renderer);
 
     RenderableObject(const RenderableObject& other) = delete;

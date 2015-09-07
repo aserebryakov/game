@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "TextResource.h"
+#include "SDL_ttf.h"
 
 
 const uint16_t Engine::kScreenWidth = 640;
@@ -13,7 +15,7 @@ const uint16_t Engine::kScreenHeight = 480;
 
 
 Engine::Engine() : game_window_(nullptr), screen_surface_(nullptr),
-  renderer_(nullptr), quit_(false), player_(nullptr) {
+  renderer_(nullptr), score_(0), quit_(false), player_(nullptr) {
 }
 
 
@@ -21,12 +23,18 @@ Engine::~Engine() {
   //Destroy window
   SDL_DestroyWindow(game_window_);
   SDL_DestroyRenderer(renderer_);
+  TTF_Quit();
   SDL_Quit();
 }
 
 
 void Engine::Init() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  {
+    throw;
+  }
+
+  if (TTF_Init() < 0)
   {
     throw;
   }
@@ -158,7 +166,20 @@ void Engine::RenderScene() {
     object->Render(renderer_);
   }
 
+  RenderHUD();
+
   SDL_RenderPresent(renderer_);
+}
+
+
+void Engine::RenderHUD() {
+  SDL_Color text_color = {0xff, 0xff, 0xff};
+  score_text_ = std::make_shared<RenderableObject>(
+                  std::make_shared<TextResource>(
+                    std::to_string(score_), text_color),
+                  renderer_);
+
+  score_text_->Render(renderer_);
 }
 
 
@@ -222,6 +243,7 @@ void Engine::DetectCollisions() {
          &(acting_objects_[i]->get_rectangle()), &intersect_dummy) == true) {
         acting_objects_[index]->Alive(false);
         acting_objects_[i]->Alive(false);
+        score_ += 10;
       }
     }
     index++;

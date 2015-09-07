@@ -30,6 +30,9 @@ class Engine {
     SDL_Surface* screen_surface_;
     SDL_Renderer* renderer_;
 
+    uint32_t score_;
+    std::shared_ptr<RenderableObject> score_text_;
+
     bool quit_;
     std::shared_ptr<Player> player_;
     std::vector<std::shared_ptr<Actor>> new_objects_;
@@ -42,6 +45,7 @@ class Engine {
     void GameLoop();
     void UpdateScene();
     void RenderScene();
+    void RenderHUD();
 
     void SpawnPlayer();
     void SpawnEnemy();

@@ -9,7 +9,7 @@
 
 class Sprite {
   public:
-    Sprite(const std::shared_ptr<SpriteResource> resource,
+    Sprite(const std::shared_ptr<ScreenResource> resource,
            SDL_Renderer* renderer);
 
     Sprite(const Sprite& other) = delete;

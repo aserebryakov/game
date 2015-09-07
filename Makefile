@@ -6,6 +6,7 @@
 OBJS = src/main.cc \
 	src/ScreenResource.cc \
 	src/SpriteResource.cc \
+	src/TextResource.cc \
 	src/Engine.cc \
 	src/Sprite.cc \
 	src/RenderableObject.cc \
@@ -22,7 +23,7 @@ CC = g++
 COMPILER_FLAGS = -std=c++0x -w -I/usr/include/SDL2 -I./include
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lSDL2
+LINKER_FLAGS = -lSDL2 -lSDL2_ttf
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = game
