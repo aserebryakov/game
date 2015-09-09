@@ -6,8 +6,9 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "TextResource.h"
 #include "SDL_ttf.h"
+#include "TextResource.h"
+#include "Resources.h"
 
 
 const uint16_t Engine::kScreenWidth = 640;
@@ -53,6 +54,8 @@ void Engine::Init() {
 
   SDL_SetRenderDrawColor(renderer_, 0xFF, 0xFF, 0xFF, 0xFF);
   SDL_RenderPresent(renderer_);
+
+  Resources::Initialize();
 }
 
 
@@ -104,7 +107,7 @@ void Engine::InitializeScene() {
   new_objects_.clear();
 
   static_objects_.push_back(std::make_shared<RenderableObject>(
-                              std::make_shared<SpriteResource>("resources/background.BMP"),
+                              Resources::Sprites["BACKGROUND"],
                               renderer_));
   SpawnPlayer();
 }
@@ -184,10 +187,9 @@ void Engine::RenderHUD() {
 
 
 void Engine::SpawnPlayer() {
-  player_ = std::make_shared<Player>(std::make_shared<SpriteResource>(
-                                      "resources/Player.BMP"),
-                                      renderer_,
-                                      kScreenWidth / 2, 3 * kScreenHeight / 4);
+  player_ = std::make_shared<Player>(Resources::Sprites["PLAYER"],
+                                     renderer_,
+                                     kScreenWidth / 2, 3 * kScreenHeight / 4);
   SpawnObject(player_);
   event_handlers_.push_back(player_);
 }
@@ -200,8 +202,8 @@ void Engine::SpawnEnemy() {
   static std::uniform_int_distribution<int> position(0, kScreenWidth);
 
   if (probability(e) == 1) {
-    auto enemy = std::make_shared<Enemy>(std::make_shared<SpriteResource>(
-                                          "resources/Enemy.BMP"), renderer_,
+    auto enemy = std::make_shared<Enemy>(Resources::Sprites["ENEMY"],
+                                         renderer_,
                                          position(e), 0, 0, 5);
     SpawnObject(enemy);
   }
@@ -213,8 +215,7 @@ void Engine::SpawnBullets() {
     if (object->Shooting() == true) {
       try {
         SDL_Rect r = object->get_rectangle();
-        SpawnObject(std::make_shared<Bullet>(std::make_shared<SpriteResource>(
-                                             "resources/Bullet.BMP"),
+        SpawnObject(std::make_shared<Bullet>(Resources::Sprites["BULLET"],
                     renderer_, object->get_x(),
                     object->get_y() - r.h / 2 - 10, 0, -10));
 

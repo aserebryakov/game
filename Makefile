@@ -4,6 +4,7 @@
 
 #OBJS specifies which files to compile as part of the project
 OBJS = src/main.cc \
+	src/Resources.cc \
 	src/ScreenResource.cc \
 	src/SpriteResource.cc \
 	src/TextResource.cc \
