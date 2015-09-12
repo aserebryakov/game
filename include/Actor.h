@@ -8,7 +8,7 @@
 
 class Actor : public RenderableObject, public IEventHandler {
   public:
-    Actor(const std::shared_ptr<SpriteResource> resource,
+    Actor(const std::shared_ptr<ScreenResource> resource,
           SDL_Renderer* renderer,
           int16_t x, int16_t y, int16_t vx, int16_t vy);
 

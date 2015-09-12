@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-Player::Player(const std::shared_ptr<SpriteResource> resource,
+Player::Player(const std::shared_ptr<ScreenResource> resource,
                SDL_Renderer* renderer,
                int16_t x, int16_t y) :
   Actor(resource, renderer, x, y, 0, 0) {

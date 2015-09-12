@@ -2,7 +2,7 @@
 #include "Actor.h"
 
 
-Actor::Actor(const std::shared_ptr<SpriteResource> resource,
+Actor::Actor(const std::shared_ptr<ScreenResource> resource,
              SDL_Renderer* renderer, int16_t x,
              int16_t y, int16_t vx, int16_t vy) :
   RenderableObject(resource, renderer),

@@ -7,7 +7,7 @@
 
 class Player : public Actor {
   public:
-    Player(const std::shared_ptr<SpriteResource> resource,
+    Player(const std::shared_ptr<ScreenResource> resource,
            SDL_Renderer* renderer, int16_t x, int16_t y);
 
     Player(const Player& other) = delete;
