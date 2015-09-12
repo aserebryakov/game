@@ -2,18 +2,9 @@
 
 
 Sprite::Sprite(const std::shared_ptr<ScreenResource> resource,
-               SDL_Renderer* renderer) : texture_(nullptr) {
-  if (resource->get_surface() == nullptr) {
-    throw;
-  }
-
-  texture_ = SDL_CreateTextureFromSurface(renderer, resource->get_surface());
-
-  if (texture_ == nullptr) {
-    throw;
-  }
-
-  SDL_QueryTexture(texture_, nullptr, nullptr, &rectangle_.w, &rectangle_.h);
+               SDL_Renderer* renderer) : texture_(nullptr),
+               resource_(resource) {
+  UpdateResource(renderer);
 
   rectangle_.x = 0;
   rectangle_.y = 0;
@@ -22,6 +13,23 @@ Sprite::Sprite(const std::shared_ptr<ScreenResource> resource,
 
 Sprite::~Sprite() {
   SDL_DestroyTexture(texture_);
+}
+
+
+void Sprite::UpdateResource(SDL_Renderer* renderer) {
+  if (resource_->get_surface() == nullptr) {
+    printf("Resource is not initialized!\n");
+    throw;
+  }
+
+  texture_ = SDL_CreateTextureFromSurface(renderer, resource_->get_surface());
+
+  if (texture_ == nullptr) {
+    printf("Failed to create texture %s!\n", SDL_GetError());
+    throw;
+  }
+
+  SDL_QueryTexture(texture_, nullptr, nullptr, &rectangle_.w, &rectangle_.h);
 }
 
 

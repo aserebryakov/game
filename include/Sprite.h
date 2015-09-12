@@ -16,6 +16,7 @@ class Sprite {
     Sprite(const Sprite&& other) = delete;
     virtual ~Sprite();
 
+    void UpdateResource(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
 
     int16_t get_x() const;
@@ -24,6 +25,7 @@ class Sprite {
     void set_y(int16_t y);
 
   protected:
+    const std::shared_ptr<ScreenResource> resource_;
     SDL_Texture* texture_;
     SDL_Rect rectangle_;
 };
