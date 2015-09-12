@@ -3,12 +3,13 @@
 
 
 #include <string>
+#include <SDL_ttf.h>
 #include "ScreenResource.h"
 
 
 class TextResource : public ScreenResource {
   public:
-    TextResource(std::string text, SDL_Color text_color);
+    TextResource(TTF_Font* font, std::string text, SDL_Color text_color);
 
     TextResource(const TextResource& other) = delete;
     TextResource(const TextResource&& other) = delete;

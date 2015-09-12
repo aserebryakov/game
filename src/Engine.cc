@@ -179,7 +179,9 @@ void Engine::RenderHUD() {
   SDL_Color text_color = {0xff, 0xff, 0xff};
   score_text_ = std::make_shared<RenderableObject>(
                   std::make_shared<TextResource>(
-                    std::to_string(score_), text_color),
+                    Resources::Fonts["SCORE"],
+                    std::to_string(score_),
+                    text_color),
                   renderer_);
 
   score_text_->Render(renderer_);
